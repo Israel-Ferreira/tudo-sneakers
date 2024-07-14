@@ -1,0 +1,150 @@
+openapi: '3.0.0'
+
+info: 
+  title: API Tudo Sneakers
+  version: 1.0.0
+  
+paths: 
+  /api/sneakers:
+    get: 
+      tags:
+        - "TudoSneakersAPI"
+      security: 
+        - {}
+      summary: Listar Tenis
+      operationId: ListarTenis
+      description: "Lista todos os Tenis (Sneakers) cadastrados na plataforma"
+      responses: 
+        200:
+          description: "Lista com todos os sneakers cadastrados"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  allOf:
+                    - $ref: "#/components/schemas/Sneaker"
+            
+        500:
+          description: "Retorna uma mensagem informando um erro"
+
+
+    post:
+      tags:
+        - "TudoSneakersAPI"
+      description: "Cadastra um novo sneaker na plataforma"
+      summary: Cadastrar Tênis
+
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: "#/components/schemas/SneakerRequest"
+
+
+      responses:
+        201:
+          description: Sneaker cada
+          content:
+            application/json:
+              schema:
+                type: object
+
+                properties:
+                  msg:
+                    type: string
+                    example: "Sneaker Cadastrado com Sucesso"
+
+
+        400:
+          description: Erro de validação
+          content:
+            application/json:
+              schema:
+                type: object
+
+                properties:
+                  msg:
+                    type: string
+                    example: "O Corpo da validação está com dados inválidos"
+
+                    
+            
+
+              
+
+
+        
+
+
+
+
+components:
+  schemas:
+
+    SneakerRequest:
+      type: object
+
+      properties:
+        brand:
+          type: string
+
+        model:
+          type: string
+
+        launch_year:
+          type: integer
+
+        colors:
+          type: array
+          items: 
+            allOf:
+              - type: string
+
+        img:
+          type: string
+          format: binary
+        
+
+
+    Sneaker:
+      type: object
+      properties:
+
+        id:
+          type: string
+          description: Id
+
+        brand:
+          type: string
+          description: Marca
+
+        model:
+          type: string
+          description: Modelo do Tênis
+
+        colorway_code:
+          type: string
+          description: Codigo da Cor do Modelo
+
+        
+        img_link_url:
+          type: string
+          description: Link da imagem no S3
+
+
+        launch_year:
+          type: number
+          description: Ano de Lançamento
+          example: 2019
+
+
+
+
+
+        
+  
+
+      
+
+  
